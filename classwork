@@ -1,0 +1,93 @@
+using System;
+
+using System.Linq;
+
+
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Practice
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //Transport transport1 = new Transport(5, "black");
+            Car car1 = new Car(20, "black", "BMW");
+            Transport hiddenCar = new Car(15, "red", "Mazda");
+
+            Transport[] transports = new Transport[] {car1, hiddenCar};
+            foreach (Transport tr in transports)
+            {
+                if (tr is Car)
+
+                {
+                    Car c = tr as Car;
+                    Console.WriteLine(c.Name);
+                }
+            }
+
+            foreach (Transport tr in transports)
+            {
+                Car c = tr as Car;
+                if (c != null)
+                {
+                    Console.WriteLine(c.Name);
+                }
+
+            }
+        }
+    }
+    public abstract class Transport
+    {
+        protected int _cost;
+        protected string _color;
+        public int Cost => _cost;
+        public abstract string AbstratProperty { get; }
+        public Transport(int cost, string color)
+        {
+
+            _color = color;
+            _cost = cost;
+        }
+        public virtual void Greet()
+        {
+            Console.WriteLine("there is a transport");
+        }
+        public void Print()
+        {
+            Console.WriteLine($"cost: {_cost}, color: {_color}");
+        }
+        public abstract void Bye();
+    }
+    public class Car : Transport
+    {
+        private string _name;
+        private bool _purchased;
+        public string Name => _name;
+        public override string AbstratProperty => "some";
+        public Car(int cost, string color, string name) : base(cost, color)
+        {
+            _name = name;
+            _cost *= 2;
+            _purchased = false;
+            
+        }
+        public Car(int cost, string color, string name, bool purchased=false) : this(cost, color, name)
+        {
+            _purchased = purchased;
+        }
+        public override void Greet() //переопределение
+        {
+            Console.WriteLine("there is a car");
+        }
+        public new void Print() //сокрытие
+        {
+            Console.WriteLine($"cost: {_cost}, color: {_color}, name: {_name}");
+        }
+        public override void Bye()
+        {
+            Console.WriteLine("Bye!");
+        }
+    }
+}
